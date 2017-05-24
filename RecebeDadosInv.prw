@@ -23,11 +23,11 @@ WSMETHOD POST WSSERVICE recebedadosinv
 	FWJsonDeserialize(cBody, @oParseJSON)
 	
 	aVetor := {;
-    	{"B7_FILIAL" , xFilial("SB7"),Nil},;
+    	{"B7_FILIAL" , PADR(oParseJSON:filial,  TAMSX3("B7_FILIAL")[1]),   Nil},;
         {"B7_COD",     PADR(oParseJSON:produto,  TAMSX3("B7_COD")[1]),     Nil},;
         {"B7_DOC",     PADR(oParseJSON:doc,      TAMSX3("B7_DOC")[1]),     Nil},;
-        {"B7_QUANT",   oParseJSON:qtd,  		   					       Nil},;
-        {"B7_QTSEGUM", oParseJSON:qtd2,  		   					       Nil},;
+        {"B7_QUANT",   val(oParseJSON:qtd),  		   					   Nil},;
+        {"B7_QTSEGUM", val(oParseJSON:qtd2), 		   					   Nil},;
         {"B7_LOCAL",   PADR(oParseJSON:local,    TAMSX3("B7_LOCAL")[1]),   Nil},;
         {"B7_LOCALIZ", PADR(oParseJSON:endereco, TAMSX3("B7_LOCALIZ")[1]), Nil},;
         {"B7_DATA",    Date(),                                             Nil} }
@@ -37,10 +37,12 @@ WSMETHOD POST WSSERVICE recebedadosinv
 	If lMsErroAuto
 		aLog := GetAutoGRLog()
 		For nI := 1 To Len(aLog)
-			cErro += (aLog[nI] + CRLF)
+			//cErro += (aLog[nI] + CRLF)
+			conout(aLog[nI])
 		Next nI
     	lRet := .F.
-    	SetRestFault(500, cErro)
+    	
+    	SetRestFault(500, "Erro ao processar requisição")
 	Else
     	::SetResponse('{"success":"true"}')
 	EndIf
