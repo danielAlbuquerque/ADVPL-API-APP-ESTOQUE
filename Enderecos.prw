@@ -8,6 +8,8 @@ END WSRESTFUL
 WSMETHOD GET WSSERVICE enderecos
 	Local nI := 1
 	
+	::SetContentType("application/json")
+	
 	dbSelectArea("SBE")
 	SBE->(dbGoTop())
 	

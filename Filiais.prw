@@ -8,6 +8,8 @@ END WSRESTFUL
 WSMETHOD GET WSSERVICE filiais
 	Local nI := 1
 	
+	::SetContentType("application/json")
+	
 	dbSelectArea("SM0")
 	SM0->(dbGoTop())
 	

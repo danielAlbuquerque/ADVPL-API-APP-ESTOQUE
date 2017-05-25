@@ -19,7 +19,9 @@ WSMETHOD GET WSRECEIVE CodProduto WSSERVICE consultaproduto
 	Local aFilAux
 	Local nAtu
 	Local cEmpAnt
-		
+	
+	::SetContentType("application/json")
+	
 	If Len(::aURLParms) > 0
 		dbSelectArea('SB1')
 		SB1->(dbSetOrder(1))
