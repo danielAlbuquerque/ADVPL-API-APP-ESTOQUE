@@ -42,7 +42,7 @@ WSMETHOD POST WSSERVICE recebedadosinv
 		Next nI
     	lRet := .F.
     	
-    	SetRestFault(500, "Erro ao processar requisiÃ§Ã£o")
+    	SetRestFault(500, "Erro ao processar requisição")
 	Else
     	::SetResponse('{"success":"true"}')
 	EndIf

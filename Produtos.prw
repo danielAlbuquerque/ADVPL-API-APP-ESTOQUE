@@ -1,27 +1,30 @@
 #INCLUDE "TOTVS.CH"
 #INCLUDE "RESTFUL.CH"
-#INCLUDE "AARRAY.CH"
-#INCLUDE "JSON.CH"
 
 WSRESTFUL produtos DESCRIPTION "Retorna os produtos"
 	WSMETHOD GET DESCRIPTION "Retorna os produtos" WSSYNTAX "/produtos/"
 END WSRESTFUL
 
 WSMETHOD GET WSSERVICE produtos
-	Local aResult := Array(#)
-	Local nI := 0
+	Local nI := 1
 	
 	dbSelectArea("SB1")
 	SB1->(dbGoTop())
 	
+	::SetResponse('[')
+	
 	While SB1->(!EOF())
-		aResult[#cValToChar(nI)] := Array(#)
-		aResult[#cValToChar(nI)][#'filial'] := SB1->B1_FILIAL
-		aResult[#cValToChar(nI)][#'codigo'] := SB1->B1_COD
-		aResult[#cValToChar(nI)][#'descricao'] := SB1->B1_DESC  
+		If nI > 1
+			::SetResponse(',')
+		Endif
+		::SetResponse('{')
+		::SetResponse('"filial":"' + alltrim(SB1->B1_FILIAL)+ '",')
+		::SetResponse('"codigo":"' + alltrim(SB1->B1_COD)+ '",')
+		::SetResponse('"descricao":"' + alltrim(SB1->B1_DESC)+ '"')
+		::SetResponse('}')
 		nI++
 		SB1->(dbSkip())
-	End-While
+	End While
 	
-	::SetResponse(ToJson(aResult))
+	::SetResponse(']')
 Return .t.
